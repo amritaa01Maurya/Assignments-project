@@ -10,7 +10,7 @@ from sklearn.datasets import load_iris
 
 
 # Load the dataset into dataframe
-titanic_df = pd.read_csv('Titanic.csv')
+titanic_df = pd.read_csv('Titanic.csv',index_col='PassengerId')
 
 
 # get the statistic summary of the dataframe
@@ -18,7 +18,7 @@ print(titanic_df.describe(include='all'))
 print(titanic_df.info())
 
 # get the shape of dataframe
-# print(titanic_df.shape)
+print(titanic_df.shape)
 
 # drop the less useful columns such as 'Ticket' and 'Cabin'
 df = titanic_df.drop(columns=['Ticket','Cabin'],axis=0) 
@@ -49,24 +49,39 @@ df = df.dropna()
 print(df.groupby('Sex')['Survived'].mean())
 # we find that women had high survival rate on titanic
 
-# Histogram to show distribution of ages by gender
+# to show distribution of ages by gender
 # sns.histplot(df, x='Age',hue='Sex')
 
-# Histogram to show distribution of ages by survival status
+# to show distribution of ages by survival status
 # sns.histplot(df, x='Age',hue='Survived')
 
-# Histogram to show the survival chances across gender
-# sns.histplot(df, x='Sex',hue='Survived')
+#to show the survival chances across gender
+# sns.countplot(df, x='Sex',hue='Survived')
 
-# Histogram to show distribution of fare by gender
+# to show the survival chances across classes
+# sns.countplot(df, x='Pclass',hue='Survived',stat='percent')
+
+# to show distribution of fare by gender
 # sns.histplot(df, x='Fare',hue='Sex')
 
-# Histogram to show fare distribution across class
+# to show fare distribution across class
 # sns.histplot(df, x='Fare',hue='Pclass')
+# print(df.groupby('Pclass')['Fare'].mean())
 
-# 
-# sns.barplot(df, x='Sex',y='Age',hue='Survived')
-# sns.scatterplot(df,x = 'Fare',y = 'Age',hue='Survived',style='Sex',palette='viridis')
+# fare distribution by embarkation port
+sns.histplot(df, x='Fare',hue='Embarked')
+print(df.groupby('Embarked')['Fare'].mean())
+
+# to show the survival chances with embarked
+# sns.countplot(df, x='Embarked',hue='Survived',stat='probability')
+print(df.groupby('Embarked')['Survived'].mean())
+
+# to show the frequency on the basis of gender 
+# sns.countplot(df, x='Embarked',hue='Sex')
+
+# sns.jointplot(df, y='Fare',x='Age',hue='Survived')
+
+# sns.scatterplot(df,y = 'Fare',x = 'Age',style='Survived',hue='Sex')
 
 
-# plt.show()
+plt.show()
